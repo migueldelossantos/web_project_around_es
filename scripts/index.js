@@ -143,15 +143,15 @@ function handleCardFormSubmit(event) {
 
 function showInputError(form, element, errorMessage) {
   const errorElement = form.querySelector(`.${element.name}-input-error`);
-  element.classList.add("form__input_type_error");
+  element.classList.add("popup__input_type_error");
   errorElement.textContent = errorMessage;
-  errorElement.classList.add("form__input-error_active");
+  errorElement.classList.add("popup__input-error_active");
 };
 
 function hideInputError(form, element) {
   const errorElement = form.querySelector(`.${element.name}-input-error`);
-  element.classList.remove("form__input_type_error");
-  errorElement.classList.remove("form__input-error_active");
+  element.classList.remove("popup__input_type_error");
+  errorElement.classList.remove("popup__input-error_active");
   errorElement.textContent = "";
 };
 

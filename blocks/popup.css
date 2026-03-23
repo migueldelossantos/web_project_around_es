@@ -80,6 +80,20 @@
   margin-bottom: 0;
 }
 
+.popup__input_type_error {
+  border-color: red;
+}
+
+.popup__input-error {
+  display: none;
+  color: red;
+  font-size: 12px;
+}
+
+.popup__input-error_active {
+  display: block;
+}
+
 .popup__title {
   margin: 0;
   font-size: 24px;
