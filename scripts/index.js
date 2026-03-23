@@ -35,6 +35,7 @@ const btnNewCard = document.querySelector(".profile__add-button");
 const formNewCard = document.querySelector("#new-card-form");
 const imageModal = document.querySelector("#image-popup");
 const btnCloseImageModal =  imageModal.querySelector(".popup__close");
+const pageContent = document.querySelector(".page__content");
 
 function openModal(element){
   element.classList.add("popup_is-opened");
@@ -61,10 +62,12 @@ function fillProfileForm () {
 function handleOpenEditModal () {
   fillProfileForm();
   openModal(editModal);
+  enableValidation(editModal);
 }
 
 function handleNewCardModal() {
   openModal(newCardModal);
+  enableValidation(newCardModal);
 }
 
 function handleProfileFormSubmit(evt) {
@@ -96,7 +99,7 @@ function handleImageModal(name, link) {
   captionElement.textContent = name
 }
 
-function getCardElement(name = "Sin título", link = "./images/placeholder.jpg") {
+function getCardElement(name, link) {
   const cardElement = cardTemplate.cloneNode(true);
 
   const imageElement = cardElement.querySelector(".card__image");
@@ -138,6 +141,43 @@ function handleCardFormSubmit(event) {
   event.target.reset()
 }
 
+function showInputError(form, element, errorMessage) {
+  const errorElement = form.querySelector(`.${element.name}-input-error`);
+  element.classList.add("form__input_type_error");
+  errorElement.textContent = errorMessage;
+  errorElement.classList.add("form__input-error_active");
+};
+
+function hideInputError(form, element) {
+  const errorElement = form.querySelector(`.${element.name}-input-error`);
+  element.classList.remove("form__input_type_error");
+  errorElement.classList.remove("form__input-error_active");
+  errorElement.textContent = "";
+};
+
+function toggleButtonState(inputs, btnSubmit) {
+  const allValid = Array.from(inputs).every(input => input.validity.valid);
+  btnSubmit.disabled = !allValid;
+}
+
+function enableValidation(form) {
+  const inputs = form.querySelectorAll(".popup__input");
+  const btbSubmit = form.querySelector(".popup__button");
+
+  toggleButtonState(inputs, btbSubmit);
+
+  inputs.forEach(input => {
+    input.addEventListener("input", function() {
+      if (!input.validity.valid) {
+        showInputError(form, input, input.validationMessage);
+      } else {
+        hideInputError(form, input);
+      }
+      toggleButtonState(inputs, btbSubmit);
+    });
+  });
+}
+
 initialCard.forEach(card => {
   renderCard(card.name, card.link, cardContainer)
 })
@@ -158,3 +198,21 @@ btnCloseImageModal.addEventListener("click", () => {
  
 formElement.addEventListener("submit", handleProfileFormSubmit);
 formNewCard.addEventListener("submit", handleCardFormSubmit)
+
+pageContent.addEventListener('click', function (e) {
+  if (e.target === editModal ||
+    e.target === newCardModal || 
+    e.target === imageModal
+  ) {
+    e.target.classList.remove("popup_is-opened");
+  }
+});
+
+document.body.addEventListener('keydown', function (e) {
+  if (e.keyCode === 27) {
+    const popupOpened = document.querySelector('.popup_is-opened');
+    if (popupOpened) {
+      popupOpened.classList.remove("popup_is-opened");
+    }
+  }
+});

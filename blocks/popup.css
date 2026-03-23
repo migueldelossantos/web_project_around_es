@@ -117,6 +117,14 @@
   margin: 0;
 }
 
+.popup__button:disabled {
+  background-color: white;
+  border: 1px solid gray;
+  cursor: not-allowed;
+  color: gray;
+  opacity: 0.6;
+}
+
 @media screen and (max-width: 544px) {
   .popup {
     bottom: 112px;
