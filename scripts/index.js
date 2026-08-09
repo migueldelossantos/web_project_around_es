@@ -3,6 +3,7 @@ import FormValidator from './FormValidator.js'
 import PopupWithForm from './PopupWithForm.js';
 import PopupWithImage from './PopupWithImage.js';
 import UserInfo from './UserInfo.js';
+import Section from './Section.js'
 
 const initialCard = [
   {
@@ -32,7 +33,6 @@ const initialCard = [
 ]
 
 const btnEditProfile = document.querySelector(".profile__edit-button");
-const cardContainer = document.querySelector(".cards__list");
 const btnNewCard = document.querySelector(".profile__add-button");
 
 const userInfo = new UserInfo({ selectorName: ".profile__title", selectorDescription: ".profile__description" });
@@ -48,25 +48,34 @@ function handleProfileFormSubmit(event, inputs) {
 const editModal = new PopupWithForm(handleProfileFormSubmit, "#edit-popup");
 editModal.setEventListeners();
 
-function handleCardClick (img, caption) {
-  const imageModal = new PopupWithImage({ img, caption }, "#image-popup");
-  imageModal.open();
+const imageModal = new PopupWithImage("#image-popup");
+
+function handleCardClick (image, caption) {
+  imageModal.open({ image, caption });
   imageModal.setEventListeners();
 }
 
-function renderCard(name, link, container){
+function createCard(name, link){
   const card = new Card(name, link, '#template-card', handleCardClick);
-  const cardElement = card.generateCard();
-  container.prepend(cardElement);
+  return card.generateCard();
 }
+
+const cardSection = new Section({
+  items: initialCard,
+  renderer: (item) => {
+    cardSection.addItem(createCard(item.name, item.link));
+  }
+}, ".cards__list");
 
 function handleCardFormSubmit(event, inputs) {
   event.preventDefault();
   
-  renderCard(inputs['place-name'], inputs.link, cardContainer);
+  cardSection.addItem(createCard(inputs['place-name'], inputs.link));
 
   newCardModal.close()
 }
+
+cardSection.renderer();
 
 const newCardModal = new PopupWithForm(handleCardFormSubmit, "#new-card-popup");
 newCardModal.setEventListeners();
@@ -97,13 +106,9 @@ function handleOpenEditModal () {
 }
 
 function handleNewCardModal() {
-  newCardModal.open()
+  newCardModal.open();
   validatorCardForm.setEventListeners();
 }
-
-initialCard.forEach(card => {
-  renderCard(card.name, card.link, cardContainer)
-})
 
 btnEditProfile.addEventListener("click",() => {
   handleOpenEditModal();

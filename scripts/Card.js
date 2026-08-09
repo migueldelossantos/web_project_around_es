@@ -13,8 +13,8 @@ class Card {
       .cloneNode(true);
   }
 
-  _handleBtnLike(btn) {
-    btn.target.classList.toggle("card__like-button_is-active");
+  _handleBtnLike(evt) {
+    evt.target.classList.toggle("card__like-button_is-active");
   }
 
   _setEventListeners() {
@@ -39,7 +39,7 @@ class Card {
 
     const imageElement = this._element.querySelector(".card__image");
     imageElement.src = this._link;
-    imageElement.tag = this._name;
+    imageElement.alt = this._name;
 
     const titleElement = this._element.querySelector(".card__title");
     titleElement.textContent = this._name;

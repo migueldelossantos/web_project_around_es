@@ -2,25 +2,23 @@ class Popup {
 
     constructor(selectorPopup) {
         this._popup = document.querySelector(selectorPopup);
+        this._handleEscClose = this._handleEscClose.bind(this);
     }
 
     open () {
         this._popup.classList.add("popup_is-opened");
+        document.addEventListener("keydown", this._handleEscClose);
     }
 
     close () {
         this._popup.classList.remove("popup_is-opened");
+        document.removeEventListener("keydown", this._handleEscClose)
     }
 
-    _handleEscClose () {
-        document.body.addEventListener('keydown', function (e) {
-            if (e.keyCode === 27) {
-                const popupOpened = document.querySelector('.popup_is-opened');
-                if (popupOpened) {
-                    popupOpened.classList.remove("popup_is-opened");
-                }
-            }
-        });
+    _handleEscClose (e) {
+        if (e.key === "Escape") {
+            this.close();
+        }
     }
 
     setEventListeners () {
@@ -36,8 +34,6 @@ class Popup {
                 e.target.classList.remove("popup_is-opened");
             }
         });
-
-        this._handleEscClose();
     }
 }
 
