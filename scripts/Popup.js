@@ -24,14 +24,14 @@ class Popup {
     setEventListeners () {
         const btnClose = this._popup.querySelector(".popup__close")
         btnClose.addEventListener("click", () => {
-            this._popup.classList.remove("popup_is-opened");
+            this.close();
         })
         
         const pageContent = document.querySelector(".page__content");
-        const modalOpened = this._popup;
-        pageContent.addEventListener('click', function (e) {
-            if (e.target === modalOpened) {
-                e.target.classList.remove("popup_is-opened");
+        const self = this
+        pageContent.addEventListener('click', (e) => {
+            if (e.target === self._popup) {
+                self.close();
             }
         });
     }
