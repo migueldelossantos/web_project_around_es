@@ -37,6 +37,11 @@
   max-width: 373px;
 }
 
+.profile__avatar-container {
+  position: relative;
+  display: inline-block;
+}
+
 .profile__image {
   width: 120px;
   height: 120px;
@@ -44,6 +49,22 @@
   object-fit: cover;
   background-position: center;
   margin-right: 29px;
+}
+
+.profile__image-edit {
+  position: absolute;
+  top: 0px;
+  left: 0px;
+  width: 26px;
+  height: 26px;
+  padding: 50px;
+  background: rgb(0, 0, 0, 0.8);
+  display: none;
+}
+
+.profile__avatar-container:hover .profile__image-edit {
+  display: block;
+  opacity: 0.8;
 }
 
 .profile__add-button {

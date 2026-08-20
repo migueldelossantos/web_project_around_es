@@ -3,6 +3,8 @@ class Popup {
     constructor(selectorPopup) {
         this._popup = document.querySelector(selectorPopup);
         this._handleEscClose = this._handleEscClose.bind(this);
+        this._btnSend = this._popup.querySelector(".popup__button");
+        this._btnSendText = this._btnSend ? this._btnSend.textContent : "";
     }
 
     open () {
@@ -34,6 +36,14 @@ class Popup {
                 self.close();
             }
         });
+    }
+
+    loading(loading) {
+        if (loading) {
+            this._btnSend.textContent = "Guardando...";
+        } else {
+            this._btnSend.textContent = this._btnSendText;
+        }
     }
 }
 

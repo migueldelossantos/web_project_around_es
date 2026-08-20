@@ -1,9 +1,13 @@
 class Card {
-  constructor(name, link, selector, handleCardClick) {
-    this._name = name;
-    this._link = link;
+  constructor(item, selector, handleCardClick, handleBtnLike, handleDeleteCard) {
+    this._id = item._id;
+    this._name = item.name;
+    this._link = item.link;
+    this._isLiked = item.isLiked;
     this._selector = selector;
     this._handleCardClick = handleCardClick;
+    this._handleBtnLike = handleBtnLike;
+    this._handleDeleteCard = handleDeleteCard;
   }
 
   _getTemplate() {
@@ -11,10 +15,6 @@ class Card {
       .content
       .querySelector(".card")
       .cloneNode(true);
-  }
-
-  _handleBtnLike(evt) {
-    evt.target.classList.toggle("card__like-button_is-active");
   }
 
   _setEventListeners() {
@@ -25,12 +25,12 @@ class Card {
 
     const btnLike = this._element.querySelector(".card__like-button");
     btnLike.addEventListener("click", (e) => {
-      this._handleBtnLike(e)
+      this._handleBtnLike(this._id, this._isLiked, e);
     })
 
     const btnDelete = this._element.querySelector(".card__delete-button");
     btnDelete.addEventListener("click", () => {
-      this._element.remove();
+      this._handleDeleteCard(this._id, this._element);
     });
   }
 
@@ -44,9 +44,18 @@ class Card {
     const titleElement = this._element.querySelector(".card__title");
     titleElement.textContent = this._name;
 
+    const btnLike = this._element.querySelector(".card__like-button");
+    if (this._isLiked) {
+      btnLike.classList.add("card__like-button_is-active");
+    }
+
     this._setEventListeners()
 
     return this._element;
+  }
+
+  changeIsLiked() {
+    this._isLiked = !this._isLiked;
   }
 }
 
