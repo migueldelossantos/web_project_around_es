@@ -13,6 +13,7 @@ class PopupWithImage extends Popup {
         const captionElement = this._popup.querySelector(".popup__caption");
 
         imageElement.src = image;
+        imageElement.alt = caption;
         captionElement.textContent = caption;
     }
 }

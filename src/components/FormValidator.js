@@ -54,6 +54,10 @@ class FormValidator {
       })
     })
   }
+
+  validateFormData() {
+    this._toggleButtonState();
+  }
 }
 
 export default FormValidator;
