@@ -37,8 +37,9 @@ function handleProfileFormSubmit(event, inputs) {
 
   api.updateProfileInfo(inputs)
     .then((res) => {
-      const { name, about } = res;
-      userInfo.setUserInfo({ name, description: about });
+      console.log(res);
+      const { name, about, avatar } = res;
+      userInfo.setUserInfo({ name, about, avatar });
     })
     .catch((err) => {
       console.log("Error: ", err)
